@@ -27,16 +27,14 @@ class UPVBot():
         lgin_btn.click()
         sleep(2)
         print("acaba login")
-    
-    def reservar_gimnasio(self):
-        # search intranet button
+
         intranet_btn = self.driver.find_element(By.XPATH, '//*[@id="intranet"]/a[2]')
         intranet_btn.click()
-        sleep(2)
+        sleep(1)
 
         facilities_btn = self.driver.find_element(By.XPATH, '//*[@id="elemento_1003"]/tbody/tr/td[1]/p/a')
         facilities_btn.click()
-        sleep(2)
+        sleep(1)
 
         # select "EN FORMA"
         programa = Select(self.driver.find_element(By.NAME, 'tipoact'))
@@ -45,24 +43,77 @@ class UPVBot():
         # select "MUSCULACION"
         actividad = Select(self.driver.find_element(By.NAME, 'acti'))
         actividad.select_by_value('20435')
-        sleep(2)
+        sleep(1)
+    
+    def reservar_gimnasio(self, off):
 
-        # create matrix with available slots
-        # check readme
         buttons = self.driver.find_elements(By.CLASS_NAME, "upv_enlacelista")
-
-        dia1 = buttons[5]
+        numero_botones = len(buttons)+off
+        día_1_arg = numero_botones
+        dia1 = buttons[día_1_arg]
         dia1.click()
-        buttons = self.driver.find_elements(By.CLASS_NAME, "upv_enlacelista")
+    
+def dias_a_reservar(diahora):
+    dia = diahora[0]
+    hora = str(diahora[1:3])
 
-        dia2 = buttons[15]
-        dia2.click()
-        buttons = self.driver.find_elements(By.CLASS_NAME, "upv_enlacelista")
+    print(dia)
+    print(hora)
 
-        dia3 = buttons[25]
-        dia3.click()
+    offset_dia = -5
+    offset_hora = 0
+
+    if dia == 'L':
+        offset_dia = -5
+    elif dia == 'M':
+        offset_dia = -4
+    elif dia == 'X':
+        offset_dia = -3
+    elif dia == 'J':
+        offset_dia = -2
+    elif dia == 'V':
+        offset_dia = -1
+
+    if hora == '07' :
+        offset_hora = -65
+    elif hora == '08' :
+        offset_hora = -60
+    elif hora == '09' :
+        offset_hora = -55
+    elif hora == '11' :
+        offset_hora = -50
+    elif hora == '12' :
+        offset_hora = -45
+    elif hora == '13' :
+        offset_hora = -40
+    elif hora == '14' :
+        offset_hora = -35
+    elif hora == '15' :
+        offset_hora = -30
+    elif hora == '16' :
+        offset_hora = -25
+    elif hora == '17' :
+        offset_hora = -20
+    elif hora == '18' :
+        offset_hora = -15
+    elif hora == '19' :
+        offset_hora = -10
+    elif hora == '20' :
+        offset_hora = -5
+    elif hora == '21' :
+        offset_hora = 0
+    
+    return offset_dia + offset_hora
 
 bot = UPVBot()
 bot.login()
-bot.reservar_gimnasio()
+
+x = int(input('¿Cuántos dias vas a entrenar'))
+for i in range(x):
+    d = input('Especifica tu primer dia según el patrón DHH, donde D es el dia en mayuscula (L, M, X, J, V) y HH es la hora en la que empieza tu turno (07:30 == 07)')
+    offset = dias_a_reservar(d)
+    bot.reservar_gimnasio(offset)
+
+
+
 
