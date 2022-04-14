@@ -1,10 +1,22 @@
+from ast import parse
 from msilib.schema import SelfReg
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.service import Service
 from time import sleep
+import argparse
 
+parser = argparse.ArgumentParser()
+
+parser.add_argument("-a", "--days", required=True, type=int, help="days that you want to train")
+parser.add_argument("-b", "--dhh", required=True, type=str, nargs='+', help="enter your training days as DHH (DAY HOURHOUR). IE: L07 = monday from 07:30 to 08:30")
+args = vars(parser.parse_args())
+
+x = int(args['days'])
+days = list(args['dhh'])
+
+print(f"quieres entrenar {x} dias y quieres entrenar estos dias: {days}")
 
 class UPVBot():
     def __init__(self):
@@ -25,7 +37,7 @@ class UPVBot():
 
         lgin_btn = self.driver.find_element(By.CLASS_NAME, 'upv_btsubmit')
         lgin_btn.click()
-        sleep(2)
+        sleep(1)
         print("acaba login")
 
         intranet_btn = self.driver.find_element(By.XPATH, '//*[@id="intranet"]/a[2]')
@@ -57,10 +69,7 @@ def dias_a_reservar(diahora):
     dia = diahora[0]
     hora = str(diahora[1:3])
 
-    print(dia)
-    print(hora)
-
-    offset_dia = -5
+    offset_dia = 0
     offset_hora = 0
 
     if dia == 'L':
@@ -108,12 +117,8 @@ def dias_a_reservar(diahora):
 bot = UPVBot()
 bot.login()
 
-x = int(input('¿Cuántos dias vas a entrenar'))
 for i in range(x):
-    d = input('Especifica tu primer dia según el patrón DHH, donde D es el dia en mayuscula (L, M, X, J, V) y HH es la hora en la que empieza tu turno (07:30 == 07)')
+    d = days[i]
     offset = dias_a_reservar(d)
+
     bot.reservar_gimnasio(offset)
-
-
-
-
