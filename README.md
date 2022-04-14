@@ -12,13 +12,4 @@ Repository for my first Python projects
   2) Have selenium installed.
   3) Have chromedriver.exe in the C:\ folder.
 
-  The code has some comments that act as an user guide.
-  
-  The only remark that I ought to do is the following:
-   
-  The last step is clicking the slot you want, that's something that you have to tell the program.
-  The page where you select your slots is basically a matrix of links. I'll call them buttons as that's how they are referred to in the code.
-  
-  You also have to take into account that if you are enrrolled in another activity, its cancel button also counts as a button. This means that, when you book a slot, a new button   appears, and the buttons[] list has to be updated.
-  
-  I leave that task to everyone who wants to use this code :) 
+  For help, execute the command with -h (py gimnasio_reserva.py -h) 

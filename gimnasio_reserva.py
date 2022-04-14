@@ -9,7 +9,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-a", "--days", required=True, type=int, help="days that you want to train")
+parser.add_argument("-a", "--days", required=True, type=int, help="number of days that you want to train")
 parser.add_argument("-b", "--dhh", required=True, type=str, nargs='+', help="enter your training days as DHH (DAY HOURHOUR). IE: L07 = monday from 07:30 to 08:30")
 args = vars(parser.parse_args())
 
