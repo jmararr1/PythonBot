@@ -120,5 +120,4 @@ bot.login()
 for i in range(x):
     d = days[i]
     offset = dias_a_reservar(d)
-
     bot.reservar_gimnasio(offset)
